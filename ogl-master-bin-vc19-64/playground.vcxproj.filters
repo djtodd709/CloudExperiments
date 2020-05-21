@@ -1,0 +1,98 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="..\ogl-master\playground\playground.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ogl-master\common\shader.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ogl-master\common\texture.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ogl-master\common\objloader.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ogl-master\common\controls.cpp">
+      <Filter>common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\ogl-master\playground\renderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{93F975A5-CC0B-3007-9CA9-D2CD659537B8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common">
+      <UniqueIdentifier>{3C76D7E0-81F8-3601-BC84-4022AE1F219F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{3dbe95c6-6322-4b65-825d-f5ef9fd0fa8c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders">
+      <UniqueIdentifier>{63dc4efc-571e-43e5-9769-e1e8df149622}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\ogl-master\common\shader.hpp">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ogl-master\common\texture.hpp">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ogl-master\common\stb_image.h">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ogl-master\common\objloader.hpp">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ogl-master\common\controls.hpp">
+      <Filter>common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\ogl-master\playground\renderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\ogl-master\playground\Shaders\PassthroughVS.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\ogl-master\playground\Shaders\RayTracedSceneFS.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\ogl-master\playground\Shaders\MVPVS.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\ogl-master\playground\Shaders\RedFS.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\ogl-master\playground\Shaders\texturedFS.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\ogl-master\playground\Shaders\texturedVS.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\ogl-master\playground\Shaders\texturedTCS.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\ogl-master\playground\Shaders\texturedTES.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\ogl-master\playground\Shaders\texturedRayFS.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\ogl-master\playground\Shaders\mountainFS.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\ogl-master\playground\Shaders\RayDensityFS.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\ogl-master\playground\Shaders\WorleyDensityFS.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\ogl-master\playground\Shaders\WorleyCS.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+  </ItemGroup>
+</Project>
