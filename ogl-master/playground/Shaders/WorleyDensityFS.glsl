@@ -5,6 +5,8 @@ uniform float iTime;
 uniform vec3 camPos;
 uniform vec3 camDir;
 uniform vec3 camRight;
+uniform vec3 lightCol;
+uniform vec3 lightDir;
 
 uniform float zNear;
 uniform float zFar;
@@ -62,6 +64,17 @@ vec2 rayBoxDst(vec3 boundsMin, vec3 boundsMax, Ray ray) {
 	return vec2(dstToBox, dstInsideBox);
 }
 
+float sampleDebug(vec3 samplePos) {
+	vec3 detPos = samplePos;
+
+	float sampled = min(1.0, max(0.0, texture(detailTex, samplePos).r * densityMult - densityOfst));
+	if (sampled > 0.01) {
+		detPos *= 0.75;
+		sampled = min(1.0, max(0.0, sampled - texture(detailTex, detPos).r));
+	}
+	return sampled;
+}
+
 float sampleDensity(vec3 samplePos) {
 	vec3 detPos = samplePos;
 
@@ -76,25 +89,23 @@ float sampleDensity(vec3 samplePos) {
 	sampled *= edgeFade;
 	if (sampled > 0.01) {
 		detPos *= 0.15;
-		detPos.x += iTime / 136.0;
-		detPos.z += iTime / 200.0;
+		detPos.x += iTime / 200.0;
+		detPos.z += iTime / 300.0;
 		sampled = min(1.0, max(0.0, sampled - texture(detailTex, detPos).r));
 	}
 	return sampled;
 }
 
-vec3 LightDir = normalize(vec3(0.5, 1.0, 0.5));
-
 float lightMarch(vec3 cloudPos) {
-	//LightDir = normalize(vec3(cos(iTime/20.0), 1, sin(iTime / 20.0)));
-	Ray ray = Ray(cloudPos, LightDir);
+	
+	Ray ray = Ray(cloudPos, lightDir);
 	float dstInBox = rayBoxDst(cloudBox.boundsMin, cloudBox.boundsMax, ray).y;
 
 	float stepSize = dstInBox / numLightSteps;
 	float totalDensity = 0.0;
 
 	for (int step = 0; step < numLightSteps; step++) {
-		cloudPos += LightDir * stepSize;
+		cloudPos += lightDir * stepSize;
 		totalDensity += max(0.0, sampleDensity(cloudPos) * stepSize);
 	}
 
@@ -107,6 +118,12 @@ void main()
 	vec2 coords = gl_FragCoord.xy / iResolution.xy;
 
 	if (gl_FragCoord.x <= 128 && gl_FragCoord.y <= 128) {
+
+		fragColor = vec4(vec3(sampleDebug(vec3(gl_FragCoord.xy / 128., iTime / 256.0))), 1.0);
+		return;
+	}
+
+	/*if (gl_FragCoord.x <= 128 && gl_FragCoord.y <= 128) {
 		
 		fragColor = vec4(vec3(texture(worleyTex, vec3(gl_FragCoord.xy/128., iTime / 256.0))),1.0);
 		return;
@@ -115,7 +132,7 @@ void main()
 
 		fragColor = vec4(vec3(texture(detailTex, vec3(gl_FragCoord.xy / 64., iTime / 256.0))), 1.0);
 		return;
-	}
+	}*/
 	
 	float nonLinDepth = texture2D(depthTex, coords).x;
 	float z_n = 2.0 * nonLinDepth - 1.0;
@@ -163,7 +180,7 @@ void main()
 	}
 
 	vec3 bgCol = texture(bufferTex, coords).rgb;
-	vec3 cloudCol = lightEnergy * vec3(1.0,.7,.7);
+	vec3 cloudCol = lightEnergy * lightCol;
 	vec3 col = max(vec3(0.0),min(vec3(1.0),bgCol * transmittance + cloudCol));
 	fragColor = vec4(col, 1.0);
 	

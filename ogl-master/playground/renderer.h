@@ -1,3 +1,7 @@
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
+
 // Include standard headers
 #include <stdio.h>
 #include <stdlib.h>
@@ -40,11 +44,18 @@ public:
 protected:
 	void Initialize();
 	void CreateNoiseTex();
+	void RenderUI();
 	void RenderMountain();
 	void RenderClouds();
 
 	GLFWwindow* window;
 	bool exitWindow;
+
+	bool inMenu;
+	bool pausePress;
+	int subMenu;
+	bool fpsCount;
+	bool paused;
 
 	GLuint VertexArrayID;
 	GLuint programID;
@@ -85,10 +96,14 @@ protected:
 	GLuint numLightSteps;
 	GLuint densityMult;
 	GLuint densityOfst;
+	GLuint lightCol;
+	GLuint lightDir;
 	float numStepsVal;
 	float numLightStepsVal;
 	float densityMultVal;
 	float densityOfstVal;
+	vec3 lightColVal;
+	vec3 lightDirVal;
 
 	float timePassed;
 

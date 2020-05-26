@@ -90,7 +90,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master\external\glfw-3.1.2\include;D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master\external\glm-0.9.7.1;D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master\external\glew-1.13.0\include;D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master\external\glfw-3.1.2\include;D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master\external\glm-0.9.7.1;D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master\external\glew-1.13.0\include;D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master\external\imgui;D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -316,6 +316,12 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="..\ogl-master\common\controls.cpp" />
     <ClCompile Include="..\ogl-master\common\objloader.cpp" />
     <ClCompile Include="..\ogl-master\common\texture.cpp" />
+    <ClCompile Include="..\ogl-master\external\imgui\imgui.cpp" />
+    <ClCompile Include="..\ogl-master\external\imgui\imgui_demo.cpp" />
+    <ClCompile Include="..\ogl-master\external\imgui\imgui_draw.cpp" />
+    <ClCompile Include="..\ogl-master\external\imgui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="..\ogl-master\external\imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="..\ogl-master\external\imgui\imgui_widgets.cpp" />
     <ClCompile Include="..\ogl-master\playground\playground.cpp" />
     <ClCompile Include="..\ogl-master\common\shader.cpp" />
     <ClCompile Include="..\ogl-master\playground\renderer.cpp" />
@@ -324,6 +330,11 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="..\ogl-master\common\shader.hpp" />
     <ClInclude Include="..\ogl-master\common\stb_image.h" />
     <ClInclude Include="..\ogl-master\common\texture.hpp" />
+    <ClInclude Include="..\ogl-master\external\imgui\imconfig.h" />
+    <ClInclude Include="..\ogl-master\external\imgui\imgui.h" />
+    <ClInclude Include="..\ogl-master\external\imgui\imgui_impl_glfw.h" />
+    <ClInclude Include="..\ogl-master\external\imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="..\ogl-master\external\imgui\imgui_internal.h" />
     <ClInclude Include="..\ogl-master\playground\renderer.h" />
   </ItemGroup>
   <ItemGroup>
@@ -340,6 +351,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <None Include="..\ogl-master\playground\Shaders\texturedVS.glsl" />
     <None Include="..\ogl-master\playground\Shaders\WorleyCS.glsl" />
     <None Include="..\ogl-master\playground\Shaders\WorleyDensityFS.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="..\ogl-master\external\imgui\imgui.natvis" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -4,7 +4,7 @@
 #define WINDOWWIDTH 858
 #define WINDOWHEIGHT 480
 
-void computeMatricesFromInputs(GLFWwindow* window);
+void computeMatricesFromInputs(GLFWwindow* window, bool inMenu);
 glm::mat4 getViewMatrix();
 glm::mat4 getProjectionMatrix();
 glm::vec3 getCameraPosition();

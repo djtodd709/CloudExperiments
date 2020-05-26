@@ -3,6 +3,11 @@
 Renderer::Renderer() {
 	exitWindow = false;
 
+	inMenu = false;
+	subMenu = 0;
+	fpsCount = true;
+	paused = false;
+
 	// Initialise GLFW
 	if (!glfwInit())
 	{
@@ -39,11 +44,31 @@ Renderer::Renderer() {
 		return;
 	}
 
+	// Setup Dear ImGui context
+	IMGUI_CHECKVERSION();
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+	//io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+	// Setup Dear ImGui style
+	ImGui::StyleColorsDark();
+	//ImGui::StyleColorsClassic();
+
+	// Setup Platform/Renderer bindings
+	ImGui_ImplGlfw_InitForOpenGL(window, true);
+	ImGui_ImplOpenGL3_Init("#version 430");
+
+
 	Initialize();
 	return;
 }
 
 Renderer::~Renderer() {
+	ImGui_ImplOpenGL3_Shutdown();
+	ImGui_ImplGlfw_Shutdown();
+	ImGui::DestroyContext();
+
 	// Cleanup VBO
 	glDeleteBuffers(1, &vertexbuffer);
 	glDeleteBuffers(1, &uvbuffer);
@@ -66,7 +91,7 @@ void Renderer::Initialize() {
 	glfwSetCursorPos(window, WINDOWWIDTH / 2, WINDOWHEIGHT / 2);
 
 	// background
-	glClearColor(0.7f, 0.5f, 0.9f, 0.0f);
+	glClearColor(0.5f, 0.5f, 0.9f, 0.0f);
 
 	//Create Framebuffers
 	glGenTextures(1, &bufferColourTex);
@@ -153,6 +178,9 @@ void Renderer::Initialize() {
 	densityMult = glGetUniformLocation(cloudID, "densityMult");
 	densityOfst = glGetUniformLocation(cloudID, "densityOfst");
 
+	lightCol = glGetUniformLocation(cloudID, "lightCol");
+	lightDir = glGetUniformLocation(cloudID, "lightDir");
+
 	glUseProgram(programID);
 	glUniform2f(iResolution, WINDOWWIDTH, WINDOWHEIGHT);
 	glUseProgram(cloudID);
@@ -164,10 +192,14 @@ void Renderer::Initialize() {
 	numLightStepsVal = 8.0f;
 	densityMultVal = 12.0f;
 	densityOfstVal = 6.5f;
+	lightColVal = vec3(1.0f);
+	lightDirVal = normalize(vec3(0.5f, 1.0f, 0.5f));
 	glUniform1f(numSteps, numStepsVal);
 	glUniform1f(numLightSteps, numLightStepsVal);
 	glUniform1f(densityMult, densityMultVal);
 	glUniform1f(densityOfst, densityOfstVal);
+	glUniform3fv(lightCol, 1, (float*)&lightColVal[0]);
+	glUniform3fv(lightDir, 1, (float*)&lightDirVal[0]);
 
 	glUseProgram(0);
 
@@ -225,51 +257,42 @@ void Renderer::UpdateScene() {
 	}
 
 	// Compute the MVP matrix from keyboard and mouse input
-	computeMatricesFromInputs(window);
+	computeMatricesFromInputs(window, inMenu);
 	ProjectionMatrix = getProjectionMatrix();
 	ViewMatrix = getViewMatrix();
 
-	if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS) {
-		glUniform1f(numSteps, ++numStepsVal);
-		printf("numSteps: %1.0f \n", numStepsVal);
+	if (glfwGetKey(window, GLFW_KEY_P) == GLFW_PRESS) {
+		if (!pausePress) {
+			pausePress = true;
+			if (inMenu) {
+				glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+				glfwSetCursorPos(window, WINDOWWIDTH / 2, WINDOWHEIGHT / 2);
+				inMenu = false;
+			}
+			else {
+				glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+				inMenu = true;
+			}
+		}
 	}
-	if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS) {
-		if (numStepsVal < 1.0f) numStepsVal = 1.0f;
-		glUniform1f(numSteps, --numStepsVal);
-		printf("numSteps: %1.0f \n", numStepsVal);
-	}
-	if (glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS) {
-		glUniform1f(numLightSteps, ++numLightStepsVal);
-		printf("numLightSteps: %1.0f \n", numLightStepsVal);
-	}
-	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS) {
-		if (numLightStepsVal < 1.0f) numLightStepsVal = 1.0f;
-		glUniform1f(numLightSteps, --numLightStepsVal);
-		printf("numLightSteps: %1.0f \n", numLightStepsVal);
-	}
+	else { pausePress = false; }
 
-	if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS) {
-		densityMultVal += 0.1f;
+	if (subMenu == 1) {
 		glUniform1f(densityMult, densityMultVal);
-		printf("densityMult: %2.1f \n", densityMultVal);
-	}
-	if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS) {
-		densityMultVal -= 0.1f;
-		glUniform1f(densityMult, densityMultVal);
-		printf("densityMult: %2.1f \n", densityMultVal);
-	}
-	if (glfwGetKey(window, GLFW_KEY_Y) == GLFW_PRESS) {
-		densityOfstVal += 0.1f;
 		glUniform1f(densityOfst, densityOfstVal);
-		printf("densityOfst: %2.1f \n", densityOfstVal);
 	}
-	if (glfwGetKey(window, GLFW_KEY_H) == GLFW_PRESS) {
-		densityOfstVal -= 0.1f;
-		glUniform1f(densityOfst, densityOfstVal);
-		printf("densityOfst: %2.1f \n", densityOfstVal);
+	if (subMenu == 2) {
+		glUniform3fv(lightCol, 1, (float*)&lightColVal[0]);
+		glUniform3fv(lightDir, 1, (float*)&normalize(lightDirVal)[0]);
+		numStepsVal = max(0.0f, round(numStepsVal));
+		glUniform1f(numSteps, numStepsVal);
+		numLightStepsVal = max(0.0f, round(numLightStepsVal));
+		glUniform1f(numLightSteps, numLightStepsVal);
 	}
-
-	timePassed += 0.16f;
+	
+	if (!paused) {
+		timePassed += ImGui::GetIO().DeltaTime;
+	}
 	return;
 }
 
@@ -283,14 +306,89 @@ void Renderer::RenderScene() {
 
 	// Render to the screen
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+	// Start the Dear ImGui frame
+	ImGui_ImplOpenGL3_NewFrame();
+	ImGui_ImplGlfw_NewFrame();
+	ImGui::NewFrame();
+	RenderUI();
+	ImGui::Render();
 	// Clear the screen
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	RenderClouds();
+	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	// Swap buffers
 	glfwSwapBuffers(window);
 	glfwPollEvents();
 	return;
+}
+
+void Renderer::RenderUI() {
+	ImGuiWindowFlags window_flags = 0;
+	window_flags |= ImGuiWindowFlags_NoTitleBar;
+	window_flags |= ImGuiWindowFlags_NoMove;
+	window_flags |= ImGuiWindowFlags_NoResize;
+	window_flags |= ImGuiWindowFlags_NoCollapse;
+	ImGui::SetNextWindowPos(ImVec2(0, 0));
+	if (inMenu) {
+		if (subMenu == 0) {
+			ImGui::SetNextWindowSize(ImVec2(340.0f, 150.0f));
+		}
+		else if (subMenu == 1) {
+			ImGui::SetNextWindowSize(ImVec2(340.0f, 150.0f));
+		}
+		else if (subMenu == 2) {
+			ImGui::SetNextWindowSize(ImVec2(360.0f, 300.0f));
+		}
+
+
+
+		ImGui::Begin("Options", (bool*)0, window_flags);
+		ImGui::Text("Press P to close settings");
+		if (ImGui::Button("General"))
+			subMenu = 0;
+		ImGui::SameLine();
+		if (ImGui::Button("Structure"))
+			subMenu = 1;
+		ImGui::SameLine();
+		if (ImGui::Button("Lighting"))
+			subMenu = 2;
+
+		if (subMenu == 0) {
+			ImGui::Checkbox("Show FPS", &fpsCount);
+			ImGui::Checkbox("Paused", &paused);
+		}
+		else if (subMenu == 1) {
+			ImGui::Text("\nDensity Texture Sampling");
+			ImGui::SliderFloat("Multiplier", &densityMultVal, -10.0f, 20.0f, "%2.1f");
+			ImGui::SliderFloat("Offset", &densityOfstVal, -10.0f, 20.0f, "%2.1f");
+		}
+		else if (subMenu == 2) {
+			ImGui::Text("\nLight Properties");
+			ImGui::ColorEdit3("Colour", (float*)&lightColVal,
+				ImGuiColorEditFlags_NoAlpha | ImGuiColorEditFlags_NoInputs
+				);
+			ImGui::SliderFloat3("Direction", (float*)&lightDirVal, -1.0f, 1.0f);
+			ImGui::Text("\nRaymarching Steps");
+			ImGui::SliderFloat("Camera -> Cloud", &numStepsVal, 0.0f, 150.0f, "%.0f");
+			ImGui::SliderFloat("Cloud -> Light", &numLightStepsVal, 0.0f, 50.0f, "%.0f");
+		}
+	}
+	else {
+		ImGui::SetNextWindowSize(ImVec2(200.0f, 30.0f));
+		ImGui::Begin("Options", (bool*)0, window_flags);
+		ImGui::Text("Press P to adjust settings");
+	}
+	ImGui::End();
+
+	if (fpsCount) {
+		ImGui::SetNextWindowPos(ImVec2(WINDOWWIDTH-160, 0));
+		ImGui::SetNextWindowSize(ImVec2(160.0f, 60.0f));
+		ImGui::Begin("FPS", (bool*)0, window_flags);
+		ImGui::Text("Application average \n%.3f ms/frame \n(%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
+		ImGui::End();
+	}
 }
 
 void Renderer::RenderMountain() {
