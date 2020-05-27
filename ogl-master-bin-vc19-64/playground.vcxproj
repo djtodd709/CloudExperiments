@@ -338,8 +338,10 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="..\ogl-master\playground\renderer.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\ogl-master\playground\Shaders\CloudDensityCS.glsl" />
     <None Include="..\ogl-master\playground\Shaders\mountainFS.glsl" />
     <None Include="..\ogl-master\playground\Shaders\MVPVS.glsl" />
+    <None Include="..\ogl-master\playground\Shaders\PassthroughTexVS.glsl" />
     <None Include="..\ogl-master\playground\Shaders\PassthroughVS.glsl" />
     <None Include="..\ogl-master\playground\Shaders\RayDensityFS.glsl" />
     <None Include="..\ogl-master\playground\Shaders\RayTracedSceneFS.glsl" />

@@ -43,10 +43,12 @@ public:
 	void RenderScene();
 protected:
 	void Initialize();
+	void UpdateCloudUniforms();
 	void CreateNoiseTex();
 	void RenderUI();
 	void RenderMountain();
 	void RenderClouds();
+	void RenderComputeClouds();
 
 	GLFWwindow* window;
 	bool exitWindow;
@@ -57,10 +59,15 @@ protected:
 	bool fpsCount;
 	bool paused;
 
+	bool usingCompute;
+
 	GLuint VertexArrayID;
 	GLuint programID;
+	GLuint currentCloudID;
 	GLuint cloudID;
+	GLuint passthroughID;
 	GLuint worleyShaderID;
+	GLuint worleyComputeShaderID;
 
 	GLuint bufferColourTex;
 	GLuint bufferDepthTex;
@@ -80,6 +87,9 @@ protected:
 	GLuint detailTexID;
 	GLuint bufferTexID;
 	GLuint depthTexID;
+
+	GLuint finalTex;
+	GLuint finalTexID;
 
 	GLuint cloudVertexbuffer;
 	GLuint vertexbuffer;
