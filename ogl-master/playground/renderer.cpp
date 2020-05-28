@@ -8,7 +8,7 @@ Renderer::Renderer() {
 	fpsCount = true;
 	paused = false;
 
-	usingCompute = true;
+	usingCompute = false;
 
 	// Initialise GLFW
 	if (!glfwInit())
@@ -170,6 +170,11 @@ void Renderer::Initialize() {
 
 	CreateNoiseTex();
 
+	worleyTexID = glGetUniformLocation(currentCloudID, "worleyTex");
+	detailTexID = glGetUniformLocation(currentCloudID, "detailTex");
+	bufferTexID = glGetUniformLocation(currentCloudID, "bufferTex");
+	depthTexID = glGetUniformLocation(currentCloudID, "depthTex");
+
 	// Read our .obj file
 	bool res = loadOBJ("Models/terrain.obj", vertices, uvs, normals);
 
@@ -215,12 +220,7 @@ void Renderer::Initialize() {
 	densityOfstVal = 6.5f;
 	lightColVal = vec3(1.0f);
 	lightDirVal = normalize(vec3(0.5f, 1.0f, 0.5f));
-	glUniform1f(numSteps, numStepsVal);
-	glUniform1f(numLightSteps, numLightStepsVal);
-	glUniform1f(densityMult, densityMultVal);
-	glUniform1f(densityOfst, densityOfstVal);
-	glUniform3fv(lightCol, 1, (float*)&lightColVal[0]);
-	glUniform3fv(lightDir, 1, (float*)&lightDirVal[0]);
+	
 
 	glUseProgram(0);
 	UpdateCloudUniforms();
@@ -263,11 +263,6 @@ void Renderer::CreateNoiseTex() {
 
 	glDispatchCompute(128 / 8, 128 / 8, 128 / 8);
 
-	worleyTexID = glGetUniformLocation(currentCloudID, "worleyTex");
-	detailTexID = glGetUniformLocation(currentCloudID, "detailTex");
-	bufferTexID = glGetUniformLocation(currentCloudID, "bufferTex");
-	depthTexID = glGetUniformLocation(currentCloudID, "depthTex");
-
 	return;
 }
 
@@ -289,6 +284,7 @@ void Renderer::UpdateCloudUniforms() {
 	lightCol = glGetUniformLocation(currentCloudID, "lightCol");
 	lightDir = glGetUniformLocation(currentCloudID, "lightDir");
 
+	glUniform2f(glGetUniformLocation(currentCloudID, "iResolution"), WINDOWWIDTH, WINDOWHEIGHT);
 	glUniform1f(glGetUniformLocation(currentCloudID, "zNear"), 0.1f);
 	glUniform1f(glGetUniformLocation(currentCloudID, "zFar"), 100.0f);
 
@@ -297,6 +293,14 @@ void Renderer::UpdateCloudUniforms() {
 	detailTexID = glGetUniformLocation(currentCloudID, "detailTex");
 	bufferTexID = glGetUniformLocation(currentCloudID, "bufferTex");
 	depthTexID = glGetUniformLocation(currentCloudID, "depthTex");
+
+
+	glUniform1f(numSteps, numStepsVal);
+	glUniform1f(numLightSteps, numLightStepsVal);
+	glUniform1f(densityMult, densityMultVal);
+	glUniform1f(densityOfst, densityOfstVal);
+	glUniform3fv(lightCol, 1, (float*)&lightColVal[0]);
+	glUniform3fv(lightDir, 1, (float*)&lightDirVal[0]);
 
 	glUseProgram(0);
 }
@@ -419,6 +423,23 @@ void Renderer::RenderUI() {
 		if (subMenu == 0) {
 			ImGui::Checkbox("Show FPS", &fpsCount);
 			ImGui::Checkbox("Paused", &paused);
+			if (ImGui::Button("Toggle Shader")) {
+				usingCompute = !usingCompute;
+				if (usingCompute) {
+					currentCloudID = worleyComputeShaderID;
+				}
+				else {
+					currentCloudID = cloudID;
+				}
+				UpdateCloudUniforms();
+			}
+			ImGui::SameLine();
+			if (usingCompute) {
+				ImGui::Text("Current Shader: Compute");
+			}
+			else {
+				ImGui::Text("Current Shader: Fragment");
+			}
 		}
 		else if (subMenu == 1) {
 			ImGui::Text("\nDensity Texture Sampling");
@@ -510,74 +531,10 @@ void Renderer::RenderMountain() {
 	return;
 }
 
-void Renderer::RenderClouds() {
-	
-	// Use our shader
-	glUseProgram(cloudID);
-	glUniform1f(iTime, timePassed);
-
-	// Bind our texture in Texture Unit 0
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_3D, worleyTex);
-	// Set our "myTextureSampler" sampler to use Texture Unit 0
-	glUniform1i(worleyTexID, 0);
-
-	glActiveTexture(GL_TEXTURE1);
-	glBindTexture(GL_TEXTURE_2D, bufferColourTex);
-	glUniform1i(bufferTexID, 1);
-
-	glActiveTexture(GL_TEXTURE2);
-	glBindTexture(GL_TEXTURE_2D, bufferDepthTex);
-	glUniform1i(depthTexID, 2);
-
-	// Bind our texture in Texture Unit
-	glActiveTexture(GL_TEXTURE3);
-	glBindTexture(GL_TEXTURE_3D, detailTex);
-	glUniform1i(detailTexID, 3);
-
-	glUniform3fv(cameraPos, 1, &getCameraPosition()[0]);
-	glUniform3fv(cameraDir, 1, &getCameraDirection()[0]);
-	glUniform3fv(cameraRight, 1, &getCameraRight()[0]);
-
-	// 1rst attribute buffer : vertices
-	glEnableVertexAttribArray(0);
-	glBindBuffer(GL_ARRAY_BUFFER, cloudVertexbuffer);
-	glVertexAttribPointer(
-		0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
-		3,                  // size
-		GL_FLOAT,           // type
-		GL_FALSE,           // normalized?
-		0,                  // stride
-		(void*)0            // array buffer offset
-	);
-
-	// Draw the triangle !
-	glDrawArrays(GL_TRIANGLES, 0, sizeof(cloudVertices));
-
-	glDisableVertexAttribArray(0);
-}
-
-void Renderer::RenderComputeClouds() {
-	glUseProgram(worleyComputeShaderID);
-	glUniform1i(glGetUniformLocation(worleyComputeShaderID, "destTex"), 0);
-
-	//Generate compute texture
-	glGenTextures(1, &finalTex);
-
-	glActiveTexture(GL_TEXTURE0);
-	glBindTexture(GL_TEXTURE_2D, finalTex);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, WINDOWWIDTH, WINDOWHEIGHT, 0, GL_RGBA, GL_FLOAT, NULL);
-	glBindImageTexture(0, finalTex, 0, GL_TRUE, 0, GL_WRITE_ONLY, GL_RGBA32F);
+void Renderer::PrepareCloudTextures() {
+	glUseProgram(currentCloudID);
 
 	glUniform1f(iTime, timePassed);
-	
 
 	glActiveTexture(GL_TEXTURE4);
 	glBindTexture(GL_TEXTURE_3D, worleyTex);
@@ -599,7 +556,45 @@ void Renderer::RenderComputeClouds() {
 	glUniform3fv(cameraPos, 1, &getCameraPosition()[0]);
 	glUniform3fv(cameraDir, 1, &getCameraDirection()[0]);
 	glUniform3fv(cameraRight, 1, &getCameraRight()[0]);
+}
 
+void Renderer::RenderClouds() {
+	PrepareCloudTextures();
+
+	// 1rst attribute buffer : vertices
+	glEnableVertexAttribArray(0);
+	glBindBuffer(GL_ARRAY_BUFFER, cloudVertexbuffer);
+	glVertexAttribPointer(
+		0,                  // attribute 0. No particular reason for 0, but must match the layout in the shader.
+		3,                  // size
+		GL_FLOAT,           // type
+		GL_FALSE,           // normalized?
+		0,                  // stride
+		(void*)0            // array buffer offset
+	);
+
+	// Draw the triangle !
+	glDrawArrays(GL_TRIANGLES, 0, sizeof(cloudVertices));
+
+	glDisableVertexAttribArray(0);
+}
+
+void Renderer::RenderComputeClouds() {
+	PrepareCloudTextures();
+
+	glUniform1i(glGetUniformLocation(worleyComputeShaderID, "destTex"), 0);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, finalTex);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, WINDOWWIDTH, WINDOWHEIGHT, 0, GL_RGBA, GL_FLOAT, NULL);
+	glBindImageTexture(0, finalTex, 0, GL_TRUE, 0, GL_WRITE_ONLY, GL_RGBA32F);
 
 	glDispatchCompute(WINDOWWIDTH / 16, WINDOWHEIGHT / 16, 1);
 

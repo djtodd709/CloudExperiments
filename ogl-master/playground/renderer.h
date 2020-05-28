@@ -47,6 +47,7 @@ protected:
 	void CreateNoiseTex();
 	void RenderUI();
 	void RenderMountain();
+	void PrepareCloudTextures();
 	void RenderClouds();
 	void RenderComputeClouds();
 
