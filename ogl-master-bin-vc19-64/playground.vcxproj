@@ -65,7 +65,7 @@
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\ComputerScience\Newcastle\FinalProject\ogl-master-bin-vc19-64\Release\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master-bin-vc19-64\Release</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">playground.dir\Release\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">playground</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
@@ -131,7 +131,7 @@
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>D:/ComputerScience/Newcastle/FinalProject/ogl-master-bin-vc19-64/Debug/playground.lib</ImportLibrary>
+      <ImportLibrary>D:/ComputerScience/Newcastle/FinalProject/CloudExperiments/ogl-master-bin-vc19-64/Debug/playground.lib</ImportLibrary>
       <ProgramDataBaseFile>D:/ComputerScience/Newcastle/FinalProject/CloudExperiments/ogl-master-bin-vc19-64/Debug/playground.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
     </Link>
@@ -141,7 +141,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\AntTweakBar-1.16\include;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\glfw-3.1.2\include;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\glm-0.9.7.1;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\glew-1.13.0\include;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\assimp-3.0.1270\include;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\bullet-2.81-rev2613\src;D:\ComputerScience\Newcastle\FinalProject\ogl-master\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master\external\glfw-3.1.2\include;D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master\external\glm-0.9.7.1;D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master\external\glew-1.13.0\include;D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master\external\imgui;D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -174,7 +174,7 @@
       <Message>
       </Message>
       <Command>setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -E copy D:/ComputerScience/Newcastle/FinalProject/ogl-master-bin-vc19-64/$(Configuration)/playground.exe D:/ComputerScience/Newcastle/FinalProject/ogl-master/playground/
+"C:\Program Files\CMake\bin\cmake.exe" -E copy D:/ComputerScience/Newcastle/FinalProject/CloudExperiments/ogl-master-bin-vc19-64/$(Configuration)/playground.exe D:/ComputerScience/Newcastle/FinalProject/CloudExperiments/ogl-master/playground/
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -184,13 +184,13 @@ exit /b %1
 if %errorlevel% neq 0 goto :VCEnd</Command>
     </PostBuildEvent>
     <Link>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;external\glfw-3.1.2\src\Release\glfw3.lib;external\Release\GLEW_1130.lib;opengl32.lib;glu32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;external\glfw-3.1.2\src\Release\glfw3.lib;external\Release\GLEW_1130.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>D:/ComputerScience/Newcastle/FinalProject/ogl-master-bin-vc19-64/Release/playground.lib</ImportLibrary>
-      <ProgramDataBaseFile>D:/ComputerScience/Newcastle/FinalProject/ogl-master-bin-vc19-64/Release/playground.pdb</ProgramDataBaseFile>
+      <ImportLibrary>D:/ComputerScience/Newcastle/FinalProject/CloudExperiments/ogl-master-bin-vc19-64/Release/playground.lib</ImportLibrary>
+      <ProgramDataBaseFile>D:/ComputerScience/Newcastle/FinalProject/CloudExperiments/ogl-master-bin-vc19-64/Release/playground.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
     </Link>
     <ProjectReference>

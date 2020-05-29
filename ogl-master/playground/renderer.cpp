@@ -288,12 +288,10 @@ void Renderer::UpdateCloudUniforms() {
 	glUniform1f(glGetUniformLocation(currentCloudID, "zNear"), 0.1f);
 	glUniform1f(glGetUniformLocation(currentCloudID, "zFar"), 100.0f);
 
-
 	worleyTexID = glGetUniformLocation(currentCloudID, "worleyTex");
 	detailTexID = glGetUniformLocation(currentCloudID, "detailTex");
 	bufferTexID = glGetUniformLocation(currentCloudID, "bufferTex");
 	depthTexID = glGetUniformLocation(currentCloudID, "depthTex");
-
 
 	glUniform1f(numSteps, numStepsVal);
 	glUniform1f(numLightSteps, numLightStepsVal);

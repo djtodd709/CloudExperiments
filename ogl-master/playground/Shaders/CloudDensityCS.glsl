@@ -1,4 +1,4 @@
-#version 430 core
+#version 430
 
 writeonly uniform image2D destTex;
 layout(local_size_x = 16, local_size_y = 16) in;
@@ -141,7 +141,7 @@ void main()
 		return;
 	}*/
 	
-	float nonLinDepth = texture2D(depthTex, coords).x;
+	float nonLinDepth = texture(depthTex, coords).x;
 	float z_n = 2.0 * nonLinDepth - 1.0;
 	float depth = 2.0 * zNear * zFar / (zFar + zNear - z_n * (zFar - zNear));
 

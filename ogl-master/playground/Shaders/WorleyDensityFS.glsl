@@ -1,4 +1,4 @@
-#version 430 core
+#version 430
 
 uniform vec2 iResolution;
 uniform float iTime;
@@ -134,7 +134,7 @@ void main()
 		return;
 	}*/
 	
-	float nonLinDepth = texture2D(depthTex, coords).x;
+	float nonLinDepth = texture(depthTex, coords).x;
 	float z_n = 2.0 * nonLinDepth - 1.0;
 	float depth = 2.0 * zNear * zFar / (zFar + zNear - z_n * (zFar - zNear));
 
