@@ -226,6 +226,7 @@ void Renderer::Initialize() {
 	detailScaleVal = 1.0f;
 	cloudSpeedVal = vec3(0.01f,0.0f,0.007f);
 	detailSpeedVal = vec3(-0.008f, 0.0f, 0.005f);
+	optFactorVal = 0.4f;
 	
 
 	glUseProgram(0);
@@ -300,6 +301,7 @@ void Renderer::UpdateCloudUniforms() {
 
 	cloudSpeed = glGetUniformLocation(currentCloudID, "cloudSpeed");
 	detailSpeed = glGetUniformLocation(currentCloudID, "detailSpeed");
+	optFactor = glGetUniformLocation(currentCloudID, "optFactor");
 
 	glUniform2f(glGetUniformLocation(currentCloudID, "iResolution"), WINDOWWIDTH, WINDOWHEIGHT);
 	glUniform1f(glGetUniformLocation(currentCloudID, "zNear"), 0.1f);
@@ -323,6 +325,7 @@ void Renderer::UpdateCloudUniforms() {
 	glUniform1f(detailScale, detailScaleVal);
 	glUniform3fv(cloudSpeed, 1, (float*)&cloudSpeedVal[0]);
 	glUniform3fv(detailSpeed, 1, (float*)&detailSpeedVal[0]);
+	glUniform1f(optFactor, optFactorVal);
 
 	glUseProgram(0);
 }
@@ -371,6 +374,7 @@ void Renderer::UpdateScene() {
 		glUniform1f(numSteps, numStepsVal);
 		numLightStepsVal = max(0.0f, round(numLightStepsVal));
 		glUniform1f(numLightSteps, numLightStepsVal);
+		glUniform1f(optFactor, optFactorVal);
 	}
 	
 	if (!paused) {
@@ -487,6 +491,7 @@ void Renderer::RenderUI() {
 			ImGui::Text("\nRaymarching Step Size");
 			ImGui::SliderFloat("Camera -> Cloud", &numStepsVal, 0.01f, 1.0f, "%5.4f");
 			ImGui::SliderFloat("Cloud -> Light", &numLightStepsVal, 0.0f, 50.0f, "%.0f");
+			ImGui::SliderFloat("\nStep Optimization", &optFactorVal, 0.0f, 1.0f, "%3.2f");
 		}
 	}
 	else {
@@ -619,7 +624,7 @@ void Renderer::RenderComputeClouds() {
 	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA32F, WINDOWWIDTH, WINDOWHEIGHT, 0, GL_RGBA, GL_FLOAT, NULL);
 	glBindImageTexture(0, finalTex, 0, GL_TRUE, 0, GL_WRITE_ONLY, GL_RGBA32F);
 
-	glDispatchCompute(WINDOWWIDTH / 16, WINDOWHEIGHT / 16, 1);
+	glDispatchCompute(WINDOWWIDTH / 8, WINDOWHEIGHT / 8, 1);
 
 	glUseProgram(passthroughID);
 

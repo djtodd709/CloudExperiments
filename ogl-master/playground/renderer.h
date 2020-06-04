@@ -126,6 +126,9 @@ protected:
 	GLuint detailSpeed;
 	vec3 detailSpeedVal;
 
+	GLuint optFactor;
+	float optFactorVal;
+
 	float timePassed;
 
 	std::vector<glm::vec3> vertices;

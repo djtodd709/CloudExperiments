@@ -1,7 +1,7 @@
 #version 430
 
 writeonly uniform image2D destTex;
-layout(local_size_x = 16, local_size_y = 16) in;
+layout(local_size_x = 8, local_size_y = 8) in;
 
 uniform vec2 iResolution;
 uniform float iTime;
@@ -30,6 +30,8 @@ uniform float numLightSteps;
 
 uniform float densityMult;
 uniform float densityOfst;
+
+uniform float optFactor;
 
 vec3 sampleAdjust;
 vec3 sampleAdjustDetail;
@@ -124,6 +126,7 @@ void main()
 	vec3 storePos = vec3(gl_GlobalInvocationID);
 	vec2 coords = (storePos.xy + vec2(0.5)) / iResolution.xy;
 
+
 	sampleAdjust = iTime * cloudSpeed;
 	sampleAdjustDetail = iTime * detailSpeed;
 
@@ -162,21 +165,28 @@ void main()
 	float dstTravelled = 0.0;
 	float lightEnergy = 0.0;
 	float transmittance = 1.0;
+	float lastStepRoot = 0.0;
 
 	while (dstTravelled < dstLimit) {
 		vec3 texPos = camPos + (boxDist.x + dstTravelled) * rayDir;
 		float density = sampleDensity(texPos);
 
+		if (density * lastStepRoot < 0.0) {
+			lastStepRoot = 0.0;
+		}
+
 		if (density > 0.01) {
 			float lightTransmittance = lightMarch(texPos);
-			lightEnergy += density * stepSize * transmittance * lightTransmittance;
-			transmittance *= exp(-density *stepSize);
+			lightEnergy += density * (stepSize + lastStepRoot * lastStepRoot) * transmittance * lightTransmittance;
+			transmittance *= exp(-density * (stepSize + lastStepRoot * lastStepRoot));
 
 			if (transmittance < 0.01) {
 				break;
 			}
 		}
-		dstTravelled += stepSize;
+
+		lastStepRoot = optFactor * density;
+		dstTravelled += stepSize + lastStepRoot * lastStepRoot;
 	}
 	//geometry intersection
 	if (dstLimit < boxDist.y) {

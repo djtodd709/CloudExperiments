@@ -28,6 +28,8 @@ uniform float numLightSteps;
 uniform float densityMult;
 uniform float densityOfst;
 
+uniform float optFactor;
+
 // Output data
 layout(location = 0) out vec4 fragColor;
 
@@ -93,7 +95,8 @@ float sampleDensity(vec3 samplePos) {
 	vec3 detPos = samplePos;
 
 	samplePos = samplePos*0.03 + sampleAdjust;
-	float sampled = min(1.0, max(0.0, (texture(worleyTex, samplePos).r - densityOfst) * densityMult));
+	//float sampled = min(1.0, max(0.0, (texture(worleyTex, samplePos).r - densityOfst) * densityMult));
+	float sampled = min(1.0, (texture(worleyTex, samplePos).r - densityOfst) * densityMult);
 	sampled *= edgeFade;
 	if (sampled > 0.01) {
 		detPos = detPos*0.15 * detailScale + sampleAdjustDetail;
@@ -161,20 +164,28 @@ void main()
 	float lightEnergy = 0.0;
 	float transmittance = 1.0;
 
+	float lastStepRoot = 0.0;
+
 	while (dstTravelled < dstLimit) {
 		vec3 texPos = camPos + (boxDist.x + dstTravelled) * rayDir;
 		float density = sampleDensity(texPos);
 
+		if (density * lastStepRoot < 0.0) {
+			lastStepRoot = 0.0;
+		}
+
 		if (density > 0.01) {
 			float lightTransmittance = lightMarch(texPos);
-			lightEnergy += density * stepSize * transmittance * lightTransmittance;
-			transmittance *= exp(-density * stepSize);
+			lightEnergy += density * (stepSize+lastStepRoot*lastStepRoot) * transmittance * lightTransmittance;
+			transmittance *= exp(-density * (stepSize + lastStepRoot * lastStepRoot));
 
 			if (transmittance < 0.01) {
 				break;
 			}
 		}
-		dstTravelled += stepSize;
+
+		lastStepRoot = optFactor*density;
+		dstTravelled += stepSize + lastStepRoot *lastStepRoot;
 	}
 	//geometry intersection
 	if (dstLimit < boxDist.y) {
