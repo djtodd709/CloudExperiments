@@ -139,6 +139,9 @@
     <None Include="..\ogl-master\playground\Shaders\PassthroughTexVS.glsl">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="..\ogl-master\playground\Shaders\OptimizedCloudFS.glsl">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="..\ogl-master\external\imgui\imgui.natvis">

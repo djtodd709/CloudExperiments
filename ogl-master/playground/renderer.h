@@ -116,6 +116,16 @@ protected:
 	vec3 lightColVal;
 	vec3 lightDirVal;
 
+	GLuint cloudScale;
+	vec3 cloudScaleVal;
+	GLuint detailScale;
+	float detailScaleVal;
+
+	GLuint cloudSpeed;
+	vec3 cloudSpeedVal;
+	GLuint detailSpeed;
+	vec3 detailSpeedVal;
+
 	float timePassed;
 
 	std::vector<glm::vec3> vertices;

@@ -1,8 +1,5 @@
 #version 430
 
-writeonly uniform image2D destTex;
-layout(local_size_x = 16, local_size_y = 16) in;
-
 uniform vec2 iResolution;
 uniform float iTime;
 uniform vec3 camPos;
@@ -30,6 +27,9 @@ uniform float numLightSteps;
 
 uniform float densityMult;
 uniform float densityOfst;
+
+// Output data
+layout(location = 0) out vec4 fragColor;
 
 vec3 sampleAdjust;
 vec3 sampleAdjustDetail;
@@ -77,7 +77,7 @@ float sampleDebug(vec3 samplePos) {
 	samplePos *= cloudScale;
 	vec3 detPos = samplePos;
 
-	float sampled = min(1.0, max(0.0, (texture(worleyTex, samplePos).r - densityOfst) * densityMult));
+	float sampled = min(1.0, max(0.0, (texture(worleyTex, samplePos).r- densityOfst) * densityMult));
 	if (sampled > 0.01) {
 		detPos *= 0.75;
 		sampled = min(1.0, max(0.0, sampled - texture(detailTex, detPos).r));
@@ -92,11 +92,11 @@ float sampleDensity(vec3 samplePos) {
 	samplePos *= cloudScale;
 	vec3 detPos = samplePos;
 
-	samplePos = samplePos * 0.03 + sampleAdjust;
+	samplePos = samplePos*0.03 + sampleAdjust;
 	float sampled = min(1.0, max(0.0, (texture(worleyTex, samplePos).r - densityOfst) * densityMult));
 	sampled *= edgeFade;
 	if (sampled > 0.01) {
-		detPos = detPos * 0.15 * detailScale + sampleAdjustDetail;
+		detPos = detPos*0.15 * detailScale + sampleAdjustDetail;
 		sampled = min(1.0, max(0.0, sampled - texture(detailTex, detPos).r));
 	}
 	return sampled;
@@ -121,26 +121,24 @@ float lightMarch(vec3 cloudPos) {
 
 void main()
 {
-	vec3 storePos = vec3(gl_GlobalInvocationID);
-	vec2 coords = (storePos.xy + vec2(0.5)) / iResolution.xy;
+	vec2 coords = gl_FragCoord.xy / iResolution.xy;
 
 	sampleAdjust = iTime * cloudSpeed;
 	sampleAdjustDetail = iTime * detailSpeed;
 
-	if (storePos.x <= 128 && storePos.y <= 128) {
+	if (gl_FragCoord.x <= 128 && gl_FragCoord.y <= 128) {
 
-		vec4 fragColor = vec4(vec3(sampleDebug(vec3(storePos.xy / 128., iTime / 100.0))), 1.0);
-		imageStore(destTex, ivec2(storePos.xy), fragColor);
+		fragColor = vec4(vec3(sampleDebug(vec3(gl_FragCoord.xy / 128., iTime / 256.0))), 1.0);
 		return;
 	}
-
+	
 	float nonLinDepth = texture(depthTex, coords).x;
 	float z_n = 2.0 * nonLinDepth - 1.0;
 	float depth = 2.0 * zNear * zFar / (zFar + zNear - z_n * (zFar - zNear));
 
 
 	float fov = tan(45.0 * 0.5 * (3.1415926535897932384626433832795 / 180.0));	//FOV adjust
-	vec2 p = (-iResolution.xy + 2.0 * storePos.xy)/ iResolution.y;
+	vec2 p = (-iResolution.xy + 2.0 * gl_FragCoord.xy)/ iResolution.y;
 	p*= fov;
 	p.x *= (4.0 / 3.0)/(iResolution.x/iResolution.y);
 	
@@ -152,7 +150,7 @@ void main()
 	Ray ray = Ray(camPos, rayDir);
 	vec2 boxDist = rayBoxDst(cloudBox.boundsMin, cloudBox.boundsMax, ray);
 	if (boxDist.y <= 0 || boxDist.x * cosTheta > depth) {
-		imageStore(destTex, ivec2(storePos.xy), texture(bufferTex, coords));
+		fragColor = texture(bufferTex, coords);
 		return;
 	}
 
@@ -170,7 +168,7 @@ void main()
 		if (density > 0.01) {
 			float lightTransmittance = lightMarch(texPos);
 			lightEnergy += density * stepSize * transmittance * lightTransmittance;
-			transmittance *= exp(-density *stepSize);
+			transmittance *= exp(-density * stepSize);
 
 			if (transmittance < 0.01) {
 				break;
@@ -195,6 +193,6 @@ void main()
 	vec3 bgCol = texture(bufferTex, coords).rgb;
 	vec3 cloudCol = lightEnergy * lightCol;
 	vec3 col = max(vec3(0.0),min(vec3(1.0),bgCol * transmittance + cloudCol));
-	imageStore(destTex, ivec2(storePos.xy), vec4(col, 1.0));
+	fragColor = vec4(col, 1.0);
 	
 }

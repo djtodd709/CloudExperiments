@@ -2,7 +2,7 @@
 #define CONTROLS_HPP
 
 #define WINDOWWIDTH 640
-#define WINDOWHEIGHT 480
+#define WINDOWHEIGHT 360
 
 void computeMatricesFromInputs(GLFWwindow* window, bool inMenu);
 glm::mat4 getViewMatrix();

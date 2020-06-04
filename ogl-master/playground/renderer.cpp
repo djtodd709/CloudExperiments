@@ -61,6 +61,7 @@ Renderer::Renderer() {
 	ImGui_ImplGlfw_InitForOpenGL(window, true);
 	ImGui_ImplOpenGL3_Init("#version 430");
 
+	glfwSwapInterval(0);
 
 	Initialize();
 	return;
@@ -133,7 +134,8 @@ void Renderer::Initialize() {
 
 	// Create and compile our GLSL program from the shaders
 	programID = LoadShaders("Shaders/texturedVS.glsl", "Shaders/mountainFS.glsl", "Shaders/texturedTCS.glsl", "Shaders/texturedTES.glsl");
-	cloudID = LoadShaders("Shaders/PassthroughVS.glsl", "Shaders/WorleyDensityFS.glsl");
+	//cloudID = LoadShaders("Shaders/PassthroughVS.glsl", "Shaders/WorleyDensityFS.glsl");
+	cloudID = LoadShaders("Shaders/PassthroughVS.glsl", "Shaders/OptimizedCloudFS.glsl");
 	passthroughID = LoadShaders("Shaders/PassthroughTexVS.glsl", "Shaders/texturedFS.glsl");
 	worleyShaderID = LoadComputeShader("Shaders/WorleyCS.glsl");
 	worleyComputeShaderID = LoadComputeShader("Shaders/CloudDensityCS.glsl");
@@ -214,12 +216,16 @@ void Renderer::Initialize() {
 	glUniform1f(glGetUniformLocation(currentCloudID, "zNear"), 0.1f);
 	glUniform1f(glGetUniformLocation(currentCloudID, "zFar"), 100.0f);
 
-	numStepsVal = 80.0f;
+	numStepsVal = 0.25f;
 	numLightStepsVal = 8.0f;
 	densityMultVal = 12.0f;
-	densityOfstVal = 6.5f;
+	densityOfstVal = 0.5f;
 	lightColVal = vec3(1.0f);
 	lightDirVal = normalize(vec3(0.5f, 1.0f, 0.5f));
+	cloudScaleVal = vec3(1.0f);
+	detailScaleVal = 1.0f;
+	cloudSpeedVal = vec3(0.01f,0.0f,0.007f);
+	detailSpeedVal = vec3(-0.008f, 0.0f, 0.005f);
 	
 
 	glUseProgram(0);
@@ -263,6 +269,11 @@ void Renderer::CreateNoiseTex() {
 
 	glDispatchCompute(128 / 8, 128 / 8, 128 / 8);
 
+	glActiveTexture(GL_TEXTURE4);
+	glBindTexture(GL_TEXTURE_3D, worleyTex);
+	glActiveTexture(GL_TEXTURE5);
+	glBindTexture(GL_TEXTURE_3D, detailTex);
+
 	return;
 }
 
@@ -284,6 +295,12 @@ void Renderer::UpdateCloudUniforms() {
 	lightCol = glGetUniformLocation(currentCloudID, "lightCol");
 	lightDir = glGetUniformLocation(currentCloudID, "lightDir");
 
+	cloudScale = glGetUniformLocation(currentCloudID, "cloudScale");
+	detailScale = glGetUniformLocation(currentCloudID, "detailScale");
+
+	cloudSpeed = glGetUniformLocation(currentCloudID, "cloudSpeed");
+	detailSpeed = glGetUniformLocation(currentCloudID, "detailSpeed");
+
 	glUniform2f(glGetUniformLocation(currentCloudID, "iResolution"), WINDOWWIDTH, WINDOWHEIGHT);
 	glUniform1f(glGetUniformLocation(currentCloudID, "zNear"), 0.1f);
 	glUniform1f(glGetUniformLocation(currentCloudID, "zFar"), 100.0f);
@@ -293,12 +310,19 @@ void Renderer::UpdateCloudUniforms() {
 	bufferTexID = glGetUniformLocation(currentCloudID, "bufferTex");
 	depthTexID = glGetUniformLocation(currentCloudID, "depthTex");
 
+	glUniform1i(worleyTexID, 4);
+	glUniform1i(detailTexID, 5);
+
 	glUniform1f(numSteps, numStepsVal);
 	glUniform1f(numLightSteps, numLightStepsVal);
 	glUniform1f(densityMult, densityMultVal);
 	glUniform1f(densityOfst, densityOfstVal);
 	glUniform3fv(lightCol, 1, (float*)&lightColVal[0]);
 	glUniform3fv(lightDir, 1, (float*)&lightDirVal[0]);
+	glUniform3fv(cloudScale, 1, (float*)&cloudScaleVal[0]);
+	glUniform1f(detailScale, detailScaleVal);
+	glUniform3fv(cloudSpeed, 1, (float*)&cloudSpeedVal[0]);
+	glUniform3fv(detailSpeed, 1, (float*)&detailSpeedVal[0]);
 
 	glUseProgram(0);
 }
@@ -335,11 +359,15 @@ void Renderer::UpdateScene() {
 	if (subMenu == 1) {
 		glUniform1f(densityMult, densityMultVal);
 		glUniform1f(densityOfst, densityOfstVal);
+		glUniform3fv(cloudScale, 1, (float*)&(1.0f/cloudScaleVal)[0]);
+		glUniform1f(detailScale, detailScaleVal);
+		glUniform3fv(cloudSpeed, 1, (float*)&cloudSpeedVal[0]);
+		glUniform3fv(detailSpeed, 1, (float*)&detailSpeedVal[0]);
 	}
 	if (subMenu == 2) {
 		glUniform3fv(lightCol, 1, (float*)&lightColVal[0]);
 		glUniform3fv(lightDir, 1, (float*)&normalize(lightDirVal)[0]);
-		numStepsVal = max(0.0f, round(numStepsVal));
+		numStepsVal = max(0.01f, numStepsVal);
 		glUniform1f(numSteps, numStepsVal);
 		numLightStepsVal = max(0.0f, round(numLightStepsVal));
 		glUniform1f(numLightSteps, numLightStepsVal);
@@ -399,10 +427,10 @@ void Renderer::RenderUI() {
 			ImGui::SetNextWindowSize(ImVec2(340.0f, 150.0f));
 		}
 		else if (subMenu == 1) {
-			ImGui::SetNextWindowSize(ImVec2(340.0f, 150.0f));
+			ImGui::SetNextWindowSize(ImVec2(340.0f, 280.0f));
 		}
 		else if (subMenu == 2) {
-			ImGui::SetNextWindowSize(ImVec2(360.0f, 300.0f));
+			ImGui::SetNextWindowSize(ImVec2(360.0f, 220.0f));
 		}
 
 
@@ -440,9 +468,15 @@ void Renderer::RenderUI() {
 			}
 		}
 		else if (subMenu == 1) {
+			ImGui::Text("\nCloud Shape");
+			ImGui::SliderFloat3("Scale", (float*)&cloudScaleVal, 0.0f, 5.0f);
+			ImGui::SliderFloat("Detail Scale", &detailScaleVal, 0.0f, 5.0f, "%2.1f");
+			ImGui::Text("\nCloud Speed");
+			ImGui::SliderFloat3("Main", (float*)&cloudSpeedVal, -0.05f, 0.05f);
+			ImGui::SliderFloat3("Detail", (float*)&detailSpeedVal, -0.05f, 0.05f);
 			ImGui::Text("\nDensity Texture Sampling");
 			ImGui::SliderFloat("Multiplier", &densityMultVal, -10.0f, 20.0f, "%2.1f");
-			ImGui::SliderFloat("Offset", &densityOfstVal, -10.0f, 20.0f, "%2.1f");
+			ImGui::SliderFloat("Offset", &densityOfstVal, 0.0f, 1.0f, "%3.2f");
 		}
 		else if (subMenu == 2) {
 			ImGui::Text("\nLight Properties");
@@ -450,8 +484,8 @@ void Renderer::RenderUI() {
 				ImGuiColorEditFlags_NoAlpha | ImGuiColorEditFlags_NoInputs
 				);
 			ImGui::SliderFloat3("Direction", (float*)&lightDirVal, -1.0f, 1.0f);
-			ImGui::Text("\nRaymarching Steps");
-			ImGui::SliderFloat("Camera -> Cloud", &numStepsVal, 0.0f, 150.0f, "%.0f");
+			ImGui::Text("\nRaymarching Step Size");
+			ImGui::SliderFloat("Camera -> Cloud", &numStepsVal, 0.01f, 1.0f, "%5.4f");
 			ImGui::SliderFloat("Cloud -> Light", &numLightStepsVal, 0.0f, 50.0f, "%.0f");
 		}
 	}
@@ -534,10 +568,6 @@ void Renderer::PrepareCloudTextures() {
 
 	glUniform1f(iTime, timePassed);
 
-	glActiveTexture(GL_TEXTURE4);
-	glBindTexture(GL_TEXTURE_3D, worleyTex);
-	glUniform1i(worleyTexID, 4);
-
 	glActiveTexture(GL_TEXTURE1);
 	glBindTexture(GL_TEXTURE_2D, bufferColourTex);
 	glUniform1i(bufferTexID, 1);
@@ -545,11 +575,6 @@ void Renderer::PrepareCloudTextures() {
 	glActiveTexture(GL_TEXTURE2);
 	glBindTexture(GL_TEXTURE_2D, bufferDepthTex);
 	glUniform1i(depthTexID, 2);
-
-	// Bind our texture in Texture Unit
-	glActiveTexture(GL_TEXTURE3);
-	glBindTexture(GL_TEXTURE_3D, detailTex);
-	glUniform1i(detailTexID, 3);
 
 	glUniform3fv(cameraPos, 1, &getCameraPosition()[0]);
 	glUniform3fv(cameraDir, 1, &getCameraDirection()[0]);
