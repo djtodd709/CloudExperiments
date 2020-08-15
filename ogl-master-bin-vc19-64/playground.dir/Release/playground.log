@@ -25,4 +25,4 @@
 ..\ogl-master\playground\renderer.cpp(426,67): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
 ..\ogl-master\playground\renderer.cpp(691,45): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
 ..\ogl-master\playground\renderer.cpp(727,45): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
-  playground.vcxproj -> D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master-bin-vc19-64\Release\playground.exe
+  playground.vcxproj -> D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master-bin-vc19-64\.\Release\playground.exe
