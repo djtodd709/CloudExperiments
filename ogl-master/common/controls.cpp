@@ -6,7 +6,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 using namespace glm;
 
-#include "controls.hpp"
+#include "controls.h"
 
 glm::mat4 ViewMatrix;
 glm::mat4 ProjectionMatrix;
@@ -39,7 +39,14 @@ glm::vec3 getCameraRight() {
 	return right;
 }
 
+void setCameraPosition(glm::vec3 pos) {
+	position = pos;
+}
 
+void setCameraDirection(float vDir, float hDir) {
+	verticalAngle = vDir;
+	horizontalAngle = hDir;
+}
 
 
 
@@ -68,6 +75,7 @@ void computeMatricesFromInputs(GLFWwindow* window, bool inMenu){
 		// Compute new orientation
 		horizontalAngle += mouseSpeed * float(WINDOWWIDTH /2 - xpos );
 		verticalAngle   += mouseSpeed * float(WINDOWHEIGHT /2 - ypos );
+		verticalAngle = clamp(verticalAngle, -half_pi<float>(), half_pi<float>());
 	}
 	
 
@@ -87,6 +95,13 @@ void computeMatricesFromInputs(GLFWwindow* window, bool inMenu){
 	
 	// Up vector
 	glm::vec3 up = glm::cross( right, direction );
+
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS) {
+		speed = 10.0f;
+	}
+	else {
+		speed = 3.0f;
+	}
 
 	// Move forward
 	if (glfwGetKey( window, GLFW_KEY_UP ) == GLFW_PRESS){

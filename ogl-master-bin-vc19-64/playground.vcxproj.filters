@@ -71,9 +71,6 @@
     <ClInclude Include="..\ogl-master\common\objloader.hpp">
       <Filter>common</Filter>
     </ClInclude>
-    <ClInclude Include="..\ogl-master\common\controls.hpp">
-      <Filter>common</Filter>
-    </ClInclude>
     <ClInclude Include="..\ogl-master\playground\renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -92,42 +89,12 @@
     <ClInclude Include="..\ogl-master\external\imgui\imgui_internal.h">
       <Filter>imgui</Filter>
     </ClInclude>
+    <ClInclude Include="..\ogl-master\common\controls.h">
+      <Filter>common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\ogl-master\playground\Shaders\PassthroughVS.glsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\ogl-master\playground\Shaders\RayTracedSceneFS.glsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\ogl-master\playground\Shaders\MVPVS.glsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\ogl-master\playground\Shaders\RedFS.glsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\ogl-master\playground\Shaders\texturedFS.glsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\ogl-master\playground\Shaders\texturedVS.glsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\ogl-master\playground\Shaders\texturedTCS.glsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\ogl-master\playground\Shaders\texturedTES.glsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\ogl-master\playground\Shaders\texturedRayFS.glsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\ogl-master\playground\Shaders\mountainFS.glsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\ogl-master\playground\Shaders\RayDensityFS.glsl">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\ogl-master\playground\Shaders\WorleyDensityFS.glsl">
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\ogl-master\playground\Shaders\WorleyCS.glsl">
@@ -139,7 +106,22 @@
     <None Include="..\ogl-master\playground\Shaders\PassthroughTexVS.glsl">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="..\ogl-master\playground\Shaders\OptimizedCloudFS.glsl">
+    <None Include="..\ogl-master\playground\Shaders\CloudDensityFS.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\ogl-master\playground\Shaders\MountainFS.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\ogl-master\playground\Shaders\TexturedVS.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\ogl-master\playground\Shaders\TexturedTES.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\ogl-master\playground\Shaders\TexturedTCS.glsl">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\ogl-master\playground\Shaders\TexturedFS.glsl">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

@@ -5,16 +5,16 @@ layout(location = 0) out vec4 fragColor;
 uniform sampler2D heightMap;
 uniform sampler2D normalMap;
 
+uniform vec3 lightDir;
+
 in vec2 UV;
 
 void main() {
 
-	vec3 normal = texture(normalMap, UV).rgb;
+	vec3 normal = -1.0+2.0*texture(normalMap, UV).rgb;
+	normal = vec3(-normal.r, normal.bg);
 
+	float sunAngle = 0.5+ 0.5*dot(normalize(normal), vec3(lightDir));
 
-	float sunAngle = dot(normalize(normal), normalize(vec3(1.0, -1.0, 1.0)));
-
-	float addShadow = sunAngle < 0.5 ? 1.0 : sunAngle < 0.7 ? 0.5 : 0.2;
-
-	fragColor = vec4(addShadow * texture(heightMap, UV).rgb*vec3(0.8,0.5,0.4), 1.0);
+	fragColor = vec4(sunAngle* texture(heightMap, UV).rgb*vec3(0.8,0.5,0.4), 1.0);
 }

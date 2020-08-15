@@ -17,22 +17,55 @@ vec3 hash3(int pX, int pY, int pZ, mat3 hashMat)
 	return fract(28.9 * cos(vec3(pX, pY, pZ) * hashMat));
 }
 
-float Worley(vec3 P, mat3 hashMat, int wrapFac)
+vec3 hash3(vec3 p)
+{
+    return hash3(int(p.x), int(p.y), int(p.z), matR);
+}
+
+float Perlin(vec3 p)
+{
+
+    vec3 pInt = floor(p);
+    vec3 pFrac = fract(p);
+
+    vec3 w = pFrac * pFrac * (3.0 - 2.0 * pFrac);
+
+    return 	mix(
+        mix(
+            mix(dot(pFrac - vec3(0, 0, 0), hash3(pInt + vec3(0, 0, 0))),
+                dot(pFrac - vec3(1, 0, 0), hash3(pInt + vec3(1, 0, 0))),
+                w.x),
+            mix(dot(pFrac - vec3(0, 0, 1), hash3(pInt + vec3(0, 0, 1))),
+                dot(pFrac - vec3(1, 0, 1), hash3(pInt + vec3(1, 0, 1))),
+                w.x),
+            w.z),
+        mix(
+            mix(dot(pFrac - vec3(0, 1, 0), hash3(pInt + vec3(0, 1, 0))),
+                dot(pFrac - vec3(1, 1, 0), hash3(pInt + vec3(1, 1, 0))),
+                w.x),
+            mix(dot(pFrac - vec3(0, 1, 1), hash3(pInt + vec3(0, 1, 1))),
+                dot(pFrac - vec3(1, 1, 1), hash3(pInt + vec3(1, 1, 1))),
+                w.x),
+            w.z),
+        w.y);
+}
+
+float Worley(vec3 p, mat3 hashMat, int wrapFac)
 {
     float scale = 128. / float(wrapFac);
-    P /= scale;
+    p /= scale;
 
-    float Dist = 1.0;
-    vec3 I = floor(P);
-    vec3 F = fract(P);
+    float dist = 1.0;
+    vec3 pInt = floor(p);
+    vec3 pFrac = fract(p);
 
-    for (int X = -1; X <= 1; X++)
-    for (int Y = -1; Y <= 1; Y++)
-    for (int Z = -1; Z <= 1; Z++)
+    for (int x = -1; x <= 1; x++)
+    for (int y = -1; y <= 1; y++)
+    for (int z = -1; z <= 1; z++)
     {
-        int newX = int((I + vec3(X, Y, Z)).x);
-        int newY = int((I + vec3(X, Y, Z)).y);
-        int newZ = int((I + vec3(X, Y, Z)).z);
+        int newX = int((pInt + vec3(x, y, z)).x);
+        int newY = int((pInt + vec3(x, y, z)).y);
+        int newZ = int((pInt + vec3(x, y, z)).z);
 
         if (newX < 0) newX = wrapFac-1;
         if (newY < 0) newY = wrapFac - 1;
@@ -40,10 +73,10 @@ float Worley(vec3 P, mat3 hashMat, int wrapFac)
         if (newX >= wrapFac) newX = 0;
         if (newY >= wrapFac) newY = 0;
         if (newZ >= wrapFac) newZ = 0;
-        float D = distance(hash3(newX, newY, newZ, hashMat) + vec3(X, Y, Z), F);
-        Dist = min(Dist, D);
+        float pDist = distance(hash3(newX, newY, newZ, hashMat) + vec3(x, y, z), pFrac);
+        dist = min(dist, pDist);
     }
-    return Dist;
+    return dist;
 }
 
 void main()
@@ -53,7 +86,7 @@ void main()
     float persistance = 0.75;
     float maxVal = 1 + (persistance)+(persistance * persistance);
 
-    float noiseSum = Worley(storePos, matR, 3) +
+    float noiseSum = 1.0 * Perlin(storePos) +
         persistance * Worley(storePos, matG, 6) +
         persistance * persistance * Worley(storePos, matB, 10);
 

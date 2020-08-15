@@ -11,6 +11,9 @@ uniform vec3 camRight;
 uniform vec3 lightCol;
 uniform vec3 lightDir;
 
+uniform vec3 skyCol;
+uniform vec3 cloudCol;
+
 uniform vec3 cloudScale;
 uniform float detailScale;
 
@@ -31,10 +34,17 @@ uniform float numLightSteps;
 uniform float densityMult;
 uniform float densityOfst;
 
+uniform float baseTransmittance;
+
+uniform float forwardScattering;
+uniform float backScattering;
+uniform float baseBrightness;
+uniform float phaseFactor;
+
 uniform float optFactor;
 
-vec3 sampleAdjust;
-vec3 sampleAdjustDetail;
+uniform vec3 cloudMin;
+uniform vec3 cloudMax;
 
 struct Ray {
 	vec3 origin;
@@ -45,6 +55,9 @@ struct AABB {
 	vec3 boundsMin;
 	vec3 boundsMax;
 };
+
+vec3 sampleAdjust;
+vec3 sampleAdjustDetail;
 
 AABB cloudBox = AABB(vec3(-20.0, 0, -20.0), vec3(20.0, 8, 20.0));
 
@@ -73,18 +86,6 @@ vec2 rayBoxDst(vec3 boundsMin, vec3 boundsMax, Ray ray) {
 	float dstToBox = max(0, dstA);
 	float dstInsideBox = max(0, dstB - dstToBox);
 	return vec2(dstToBox, dstInsideBox);
-}
-
-float sampleDebug(vec3 samplePos) {
-	samplePos *= cloudScale;
-	vec3 detPos = samplePos;
-
-	float sampled = min(1.0, max(0.0, (texture(worleyTex, samplePos).r - densityOfst) * densityMult));
-	if (sampled > 0.01) {
-		detPos *= 0.75;
-		sampled = min(1.0, max(0.0, sampled - texture(detailTex, detPos).r));
-	}
-	return sampled;
 }
 
 float sampleDensity(vec3 samplePos) {
@@ -118,24 +119,38 @@ float lightMarch(vec3 cloudPos) {
 	}
 
 	float transmittance = exp(-totalDensity);
-	return 0.25+transmittance*0.75;
+	return baseTransmittance + transmittance * (1 - baseTransmittance);
+}
+
+// Henyey-Greenstein
+float hg(float a, float g) {
+	float g2 = g * g;
+	return (1 - g2) / (4 * 3.1415 * pow(1 + g2 - 2 * g * (a), 1.5));
+}
+
+float phase(vec3 rayDir) {
+	float a = dot(rayDir, lightDir);
+	float blend = .5;
+	float hgBlend = hg(a, forwardScattering) * (1 - blend) + hg(a, -backScattering) * blend;
+	return baseBrightness + hgBlend * phaseFactor;
+}
+
+vec3 skySample(vec3 rayDir) {
+	float sun = dot(rayDir, lightDir) * 0.5 + 0.5;
+	sun = 0.5 + 0.5 * tanh(100.0 * sun - 98.5);
+	return vec3(sun) * lightCol + vec3(1 - sun) * skyCol;
 }
 
 void main()
 {
+	cloudBox = AABB(cloudMin, cloudMax);
+
 	vec3 storePos = vec3(gl_GlobalInvocationID);
 	vec2 coords = (storePos.xy + vec2(0.5)) / iResolution.xy;
 
 
 	sampleAdjust = iTime * cloudSpeed;
 	sampleAdjustDetail = iTime * detailSpeed;
-
-	if (storePos.x <= 128 && storePos.y <= 128) {
-
-		vec4 fragColor = vec4(vec3(sampleDebug(vec3(storePos.xy / 128., iTime / 100.0))), 1.0);
-		imageStore(destTex, ivec2(storePos.xy), fragColor);
-		return;
-	}
 
 	float nonLinDepth = texture(depthTex, coords).x;
 	float z_n = 2.0 * nonLinDepth - 1.0;
@@ -155,9 +170,16 @@ void main()
 	Ray ray = Ray(camPos, rayDir);
 	vec2 boxDist = rayBoxDst(cloudBox.boundsMin, cloudBox.boundsMax, ray);
 	if (boxDist.y <= 0 || boxDist.x * cosTheta > depth) {
-		imageStore(destTex, ivec2(storePos.xy), texture(bufferTex, coords));
+		if (nonLinDepth == 1.0) {
+			imageStore(destTex, ivec2(storePos.xy), vec4(skySample(rayDir),1.0));
+		}
+		else {
+			imageStore(destTex, ivec2(storePos.xy), texture(bufferTex, coords));
+		}
 		return;
 	}
+
+	float phaseVal = phase(rayDir);
 
 	float stepSize = numSteps;
 	float dstLimit = min(depth-boxDist.x * cosTheta,boxDist.y);
@@ -177,7 +199,7 @@ void main()
 
 		if (density > 0.01) {
 			float lightTransmittance = lightMarch(texPos);
-			lightEnergy += density * (stepSize + lastStepRoot * lastStepRoot) * transmittance * lightTransmittance;
+			lightEnergy += density * (stepSize + lastStepRoot * lastStepRoot) * transmittance * lightTransmittance * phaseVal;
 			transmittance *= exp(-density * (stepSize + lastStepRoot * lastStepRoot));
 
 			if (transmittance < 0.01) {
@@ -202,9 +224,16 @@ void main()
 		}
 	}
 
-	vec3 bgCol = texture(bufferTex, coords).rgb;
-	vec3 cloudCol = lightEnergy * lightCol;
-	vec3 col = max(vec3(0.0),min(vec3(1.0),bgCol * transmittance + cloudCol));
+	vec3 bgCol;
+	if (nonLinDepth == 1.0) {
+		bgCol = skySample(rayDir);
+	}
+	else {
+		bgCol = texture(bufferTex, coords).rgb;
+	}
+
+	vec3 cloudColFinal = lightEnergy * cloudCol;
+	vec3 col = max(vec3(0.0),min(vec3(1.0),bgCol * transmittance + cloudColFinal));
 	imageStore(destTex, ivec2(storePos.xy), vec4(col, 1.0));
 	
 }

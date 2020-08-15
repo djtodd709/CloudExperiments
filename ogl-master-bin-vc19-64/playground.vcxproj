@@ -325,7 +325,7 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClCompile Include="..\ogl-master\playground\playground.cpp" />
     <ClCompile Include="..\ogl-master\common\shader.cpp" />
     <ClCompile Include="..\ogl-master\playground\renderer.cpp" />
-    <ClInclude Include="..\ogl-master\common\controls.hpp" />
+    <ClInclude Include="..\ogl-master\common\controls.h" />
     <ClInclude Include="..\ogl-master\common\objloader.hpp" />
     <ClInclude Include="..\ogl-master\common\shader.hpp" />
     <ClInclude Include="..\ogl-master\common\stb_image.h" />
@@ -339,21 +339,15 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\ogl-master\playground\Shaders\CloudDensityCS.glsl" />
-    <None Include="..\ogl-master\playground\Shaders\mountainFS.glsl" />
-    <None Include="..\ogl-master\playground\Shaders\MVPVS.glsl" />
-    <None Include="..\ogl-master\playground\Shaders\OptimizedCloudFS.glsl" />
+    <None Include="..\ogl-master\playground\Shaders\MountainFS.glsl" />
+    <None Include="..\ogl-master\playground\Shaders\CloudDensityFS.glsl" />
     <None Include="..\ogl-master\playground\Shaders\PassthroughTexVS.glsl" />
     <None Include="..\ogl-master\playground\Shaders\PassthroughVS.glsl" />
-    <None Include="..\ogl-master\playground\Shaders\RayDensityFS.glsl" />
-    <None Include="..\ogl-master\playground\Shaders\RayTracedSceneFS.glsl" />
-    <None Include="..\ogl-master\playground\Shaders\RedFS.glsl" />
-    <None Include="..\ogl-master\playground\Shaders\texturedFS.glsl" />
-    <None Include="..\ogl-master\playground\Shaders\texturedRayFS.glsl" />
-    <None Include="..\ogl-master\playground\Shaders\texturedTCS.glsl" />
-    <None Include="..\ogl-master\playground\Shaders\texturedTES.glsl" />
-    <None Include="..\ogl-master\playground\Shaders\texturedVS.glsl" />
+    <None Include="..\ogl-master\playground\Shaders\TexturedFS.glsl" />
+    <None Include="..\ogl-master\playground\Shaders\TexturedTCS.glsl" />
+    <None Include="..\ogl-master\playground\Shaders\TexturedTES.glsl" />
+    <None Include="..\ogl-master\playground\Shaders\TexturedVS.glsl" />
     <None Include="..\ogl-master\playground\Shaders\WorleyCS.glsl" />
-    <None Include="..\ogl-master\playground\Shaders\WorleyDensityFS.glsl" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="..\ogl-master\external\imgui\imgui.natvis" />
