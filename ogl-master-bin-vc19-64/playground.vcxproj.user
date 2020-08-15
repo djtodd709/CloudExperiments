@@ -4,36 +4,18 @@
     <LocalDebuggerEnvironment>
     </LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommand>D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master-bin-vc19-64\Debug\playground.exe</LocalDebuggerCommand>
+    <LocalDebuggerCommand>$(SolutionDir)Debug\playground.exe</LocalDebuggerCommand>
     <LocalDebuggerCommandArguments>
     </LocalDebuggerCommandArguments>
-    <LocalDebuggerWorkingDirectory>D:/ComputerScience/Newcastle/FinalProject/CloudExperiments/ogl-master/playground/</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerWorkingDirectory>../ogl-master/playground/</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LocalDebuggerEnvironment>
     </LocalDebuggerEnvironment>
     <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommand>D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master-bin-vc19-64\Release\playground.exe</LocalDebuggerCommand>
+    <LocalDebuggerCommand>$(SolutionDir)\Release\playground.exe</LocalDebuggerCommand>
     <LocalDebuggerCommandArguments>
     </LocalDebuggerCommandArguments>
-    <LocalDebuggerWorkingDirectory>D:/ComputerScience/Newcastle/FinalProject/CloudExperiments/ogl-master/playground/</LocalDebuggerWorkingDirectory>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
-    <LocalDebuggerEnvironment>
-    </LocalDebuggerEnvironment>
-    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommand>D:\ComputerScience\Newcastle\FinalProject\ogl-master-bin-vc19-64\MinSizeRel\playground.exe</LocalDebuggerCommand>
-    <LocalDebuggerCommandArguments>
-    </LocalDebuggerCommandArguments>
-    <LocalDebuggerWorkingDirectory>D:/ComputerScience/Newcastle/FinalProject/ogl-master/playground/</LocalDebuggerWorkingDirectory>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
-    <LocalDebuggerEnvironment>
-    </LocalDebuggerEnvironment>
-    <DebuggerFlavor>WindowsLocalDebugger</DebuggerFlavor>
-    <LocalDebuggerCommand>D:\ComputerScience\Newcastle\FinalProject\ogl-master-bin-vc19-64\RelWithDebInfo\playground.exe</LocalDebuggerCommand>
-    <LocalDebuggerCommandArguments>
-    </LocalDebuggerCommandArguments>
-    <LocalDebuggerWorkingDirectory>D:/ComputerScience/Newcastle/FinalProject/ogl-master/playground/</LocalDebuggerWorkingDirectory>
+    <LocalDebuggerWorkingDirectory>../ogl-master/playground/</LocalDebuggerWorkingDirectory>
   </PropertyGroup>
 </Project>

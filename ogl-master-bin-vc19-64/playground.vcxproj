@@ -12,14 +12,6 @@
       <Configuration>Release</Configuration>
       <Platform>x64</Platform>
     </ProjectConfiguration>
-    <ProjectConfiguration Include="MinSizeRel|x64">
-      <Configuration>MinSizeRel</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
-    <ProjectConfiguration Include="RelWithDebInfo|x64">
-      <Configuration>RelWithDebInfo</Configuration>
-      <Platform>x64</Platform>
-    </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{D7A966D9-92C4-3C46-B098-32D7A3A91B18}</ProjectGuid>
@@ -33,22 +25,12 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v142</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v142</PlatformToolset>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
-    <CharacterSet>MultiByte</CharacterSet>
-    <PlatformToolset>v142</PlatformToolset>
+    <PlatformToolset>v141</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -59,30 +41,18 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master-bin-vc19-64\Debug</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.\Debug</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">playground.dir\Debug\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">playground</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master-bin-vc19-64\Release</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.\Release</OutDir>
     <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">playground.dir\Release\</IntDir>
     <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">playground</TargetName>
     <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\ComputerScience\Newcastle\FinalProject\ogl-master-bin-vc19-64\MinSizeRel\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">playground.dir\MinSizeRel\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">playground</TargetName>
-    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
-    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\ComputerScience\Newcastle\FinalProject\ogl-master-bin-vc19-64\RelWithDebInfo\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">playground.dir\RelWithDebInfo\</IntDir>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">playground</TargetName>
-    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
-    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <IncludePath>$(IncludePath)</IncludePath>
@@ -90,7 +60,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master\external\glfw-3.1.2\include;D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master\external\glm-0.9.7.1;D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master\external\glew-1.13.0\include;D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master\external\imgui;D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ogl-master\external\glfw-3.1.2\include;..\ogl-master\external\glm-0.9.7.1;..\ogl-master\external\glew-1.13.0\include;..\ogl-master\external\imgui;..\ogl-master\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <CompileAs>CompileAsCpp</CompileAs>
@@ -131,8 +101,8 @@
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>D:/ComputerScience/Newcastle/FinalProject/CloudExperiments/ogl-master-bin-vc19-64/Debug/playground.lib</ImportLibrary>
-      <ProgramDataBaseFile>D:/ComputerScience/Newcastle/FinalProject/CloudExperiments/ogl-master-bin-vc19-64/Debug/playground.pdb</ProgramDataBaseFile>
+      <ImportLibrary>./Debug/playground.lib</ImportLibrary>
+      <ProgramDataBaseFile>./Debug/playground.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
     </Link>
     <ProjectReference>
@@ -141,7 +111,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master\external\glfw-3.1.2\include;D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master\external\glm-0.9.7.1;D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master\external\glew-1.13.0\include;D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master\external\imgui;D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\ogl-master\external\glfw-3.1.2\include;..\ogl-master\external\glm-0.9.7.1;..\ogl-master\external\glew-1.13.0\include;..\ogl-master\external\imgui;..\ogl-master\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <CompileAs>CompileAsCpp</CompileAs>
       <ExceptionHandling>Sync</ExceptionHandling>
@@ -173,15 +143,8 @@
     <PostBuildEvent>
       <Message>
       </Message>
-      <Command>setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -E copy D:/ComputerScience/Newcastle/FinalProject/CloudExperiments/ogl-master-bin-vc19-64/$(Configuration)/playground.exe D:/ComputerScience/Newcastle/FinalProject/CloudExperiments/ogl-master/playground/
-if %errorlevel% neq 0 goto :cmEnd
-:cmEnd
-endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
-:cmErrorLevel
-exit /b %1
-:cmDone
-if %errorlevel% neq 0 goto :VCEnd</Command>
+      <Command>
+      </Command>
     </PostBuildEvent>
     <Link>
       <AdditionalDependencies>opengl32.lib;glu32.lib;external\glfw-3.1.2\src\Release\glfw3.lib;external\Release\GLEW_1130.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
@@ -189,123 +152,8 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>false</GenerateDebugInformation>
       <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>D:/ComputerScience/Newcastle/FinalProject/CloudExperiments/ogl-master-bin-vc19-64/Release/playground.lib</ImportLibrary>
-      <ProgramDataBaseFile>D:/ComputerScience/Newcastle/FinalProject/CloudExperiments/ogl-master-bin-vc19-64/Release/playground.pdb</ProgramDataBaseFile>
-      <SubSystem>Console</SubSystem>
-    </Link>
-    <ProjectReference>
-      <LinkLibraryDependencies>false</LinkLibraryDependencies>
-    </ProjectReference>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
-    <ClCompile>
-      <AdditionalIncludeDirectories>D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\AntTweakBar-1.16\include;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\glfw-3.1.2\include;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\glm-0.9.7.1;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\glew-1.13.0\include;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\assimp-3.0.1270\include;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\bullet-2.81-rev2613\src;D:\ComputerScience\Newcastle\FinalProject\ogl-master\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
-      <CompileAs>CompileAsCpp</CompileAs>
-      <ExceptionHandling>Sync</ExceptionHandling>
-      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <Optimization>MinSpace</Optimization>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <UseFullPaths>false</UseFullPaths>
-      <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;TW_STATIC;TW_NO_LIB_PRAGMA;TW_NO_DIRECT3D;GLEW_STATIC;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ObjectFileName>$(IntDir)</ObjectFileName>
-      <DebugInformationFormat>
-      </DebugInformationFormat>
-    </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;TW_STATIC;TW_NO_LIB_PRAGMA;TW_NO_DIRECT3D;GLEW_STATIC;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\AntTweakBar-1.16\include;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\glfw-3.1.2\include;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\glm-0.9.7.1;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\glew-1.13.0\include;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\assimp-3.0.1270\include;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\bullet-2.81-rev2613\src;D:\ComputerScience\Newcastle\FinalProject\ogl-master\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ResourceCompile>
-    <Midl>
-      <AdditionalIncludeDirectories>D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\AntTweakBar-1.16\include;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\glfw-3.1.2\include;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\glm-0.9.7.1;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\glew-1.13.0\include;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\assimp-3.0.1270\include;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\bullet-2.81-rev2613\src;D:\ComputerScience\Newcastle\FinalProject\ogl-master\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
-      <HeaderFileName>%(Filename).h</HeaderFileName>
-      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
-      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
-      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
-    </Midl>
-    <PostBuildEvent>
-      <Message>
-      </Message>
-      <Command>setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -E copy D:/ComputerScience/Newcastle/FinalProject/ogl-master-bin-vc19-64/$(Configuration)/playground.exe D:/ComputerScience/Newcastle/FinalProject/ogl-master/playground/
-if %errorlevel% neq 0 goto :cmEnd
-:cmEnd
-endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
-:cmErrorLevel
-exit /b %1
-:cmDone
-if %errorlevel% neq 0 goto :VCEnd</Command>
-    </PostBuildEvent>
-    <Link>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;external\glfw-3.1.2\src\MinSizeRel\glfw3.lib;external\MinSizeRel\GLEW_1130.lib;opengl32.lib;glu32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
-      <GenerateDebugInformation>false</GenerateDebugInformation>
-      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>D:/ComputerScience/Newcastle/FinalProject/ogl-master-bin-vc19-64/MinSizeRel/playground.lib</ImportLibrary>
-      <ProgramDataBaseFile>D:/ComputerScience/Newcastle/FinalProject/ogl-master-bin-vc19-64/MinSizeRel/playground.pdb</ProgramDataBaseFile>
-      <SubSystem>Console</SubSystem>
-    </Link>
-    <ProjectReference>
-      <LinkLibraryDependencies>false</LinkLibraryDependencies>
-    </ProjectReference>
-  </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
-    <ClCompile>
-      <AdditionalIncludeDirectories>D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\AntTweakBar-1.16\include;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\glfw-3.1.2\include;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\glm-0.9.7.1;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\glew-1.13.0\include;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\assimp-3.0.1270\include;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\bullet-2.81-rev2613\src;D:\ComputerScience\Newcastle\FinalProject\ogl-master\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
-      <CompileAs>CompileAsCpp</CompileAs>
-      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-      <ExceptionHandling>Sync</ExceptionHandling>
-      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
-      <MultiProcessorCompilation>true</MultiProcessorCompilation>
-      <Optimization>MaxSpeed</Optimization>
-      <PrecompiledHeader>NotUsing</PrecompiledHeader>
-      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <RuntimeTypeInfo>true</RuntimeTypeInfo>
-      <UseFullPaths>false</UseFullPaths>
-      <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;TW_STATIC;TW_NO_LIB_PRAGMA;TW_NO_DIRECT3D;GLEW_STATIC;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <ObjectFileName>$(IntDir)</ObjectFileName>
-    </ClCompile>
-    <ResourceCompile>
-      <PreprocessorDefinitions>WIN32;_WINDOWS;NDEBUG;TW_STATIC;TW_NO_LIB_PRAGMA;TW_NO_DIRECT3D;GLEW_STATIC;_CRT_SECURE_NO_WARNINGS;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\AntTweakBar-1.16\include;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\glfw-3.1.2\include;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\glm-0.9.7.1;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\glew-1.13.0\include;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\assimp-3.0.1270\include;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\bullet-2.81-rev2613\src;D:\ComputerScience\Newcastle\FinalProject\ogl-master\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-    </ResourceCompile>
-    <Midl>
-      <AdditionalIncludeDirectories>D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\AntTweakBar-1.16\include;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\glfw-3.1.2\include;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\glm-0.9.7.1;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\glew-1.13.0\include;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\assimp-3.0.1270\include;D:\ComputerScience\Newcastle\FinalProject\ogl-master\external\bullet-2.81-rev2613\src;D:\ComputerScience\Newcastle\FinalProject\ogl-master\.;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
-      <HeaderFileName>%(Filename).h</HeaderFileName>
-      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
-      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
-      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
-    </Midl>
-    <PostBuildEvent>
-      <Message>
-      </Message>
-      <Command>setlocal
-"C:\Program Files\CMake\bin\cmake.exe" -E copy D:/ComputerScience/Newcastle/FinalProject/ogl-master-bin-vc19-64/$(Configuration)/playground.exe D:/ComputerScience/Newcastle/FinalProject/ogl-master/playground/
-if %errorlevel% neq 0 goto :cmEnd
-:cmEnd
-endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
-:cmErrorLevel
-exit /b %1
-:cmDone
-if %errorlevel% neq 0 goto :VCEnd</Command>
-    </PostBuildEvent>
-    <Link>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;external\glfw-3.1.2\src\RelWithDebInfo\glfw3.lib;external\RelWithDebInfo\GLEW_1130.lib;opengl32.lib;glu32.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
-      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ImportLibrary>D:/ComputerScience/Newcastle/FinalProject/ogl-master-bin-vc19-64/RelWithDebInfo/playground.lib</ImportLibrary>
-      <ProgramDataBaseFile>D:/ComputerScience/Newcastle/FinalProject/ogl-master-bin-vc19-64/RelWithDebInfo/playground.pdb</ProgramDataBaseFile>
+      <ImportLibrary>./Release/playground.lib</ImportLibrary>
+      <ProgramDataBaseFile>./Release/playground.pdb</ProgramDataBaseFile>
       <SubSystem>Console</SubSystem>
     </Link>
     <ProjectReference>
