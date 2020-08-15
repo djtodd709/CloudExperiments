@@ -8,6 +8,10 @@ How to run the program
 3. If you're not on VS19, you may need to change the "Platform Toolset" in playground>Properties
 4. Build and run the program!
 
+Alternate method
+-
+Open "playground.exe" in the standalone folder. Mileage may very with this method.
+
 Controls
 -
 * Mouse - Look around
