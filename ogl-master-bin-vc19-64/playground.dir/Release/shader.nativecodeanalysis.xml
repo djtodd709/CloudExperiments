@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DEFECTS>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master\common\</FILEPATH>
+      <FILENAME>shader.cpp</FILENAME>
+      <LINE>48</LINE>
+      <COLUMN>9</COLUMN>
+    </SFA>
+    <DEFECTCODE>6031</DEFECTCODE>
+    <DESCRIPTION>Return value ignored: 'getchar'.</DESCRIPTION>
+    <FUNCTION>LoadShaders</FUNCTION>
+    <DECORATED>?LoadShaders@@YAIPEBD000@Z</DECORATED>
+    <FUNCLINE>17</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master\common\</FILEPATH>
+      <FILENAME>shader.cpp</FILENAME>
+      <LINE>99</LINE>
+      <COLUMN>58</COLUMN>
+    </SFA>
+    <DEFECTCODE>26451</DEFECTCODE>
+    <DESCRIPTION>Arithmetic overflow: Using operator '+' on a 4 byte value and then casting the result to a 8 byte value. Cast the value to the wider type before calling operator '+' to avoid overflow (io.2).</DESCRIPTION>
+    <FUNCTION>LoadShaders</FUNCTION>
+    <DECORATED>?LoadShaders@@YAIPEBD000@Z</DECORATED>
+    <FUNCLINE>17</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master\common\</FILEPATH>
+      <FILENAME>shader.cpp</FILENAME>
+      <LINE>116</LINE>
+      <COLUMN>60</COLUMN>
+    </SFA>
+    <DEFECTCODE>26451</DEFECTCODE>
+    <DESCRIPTION>Arithmetic overflow: Using operator '+' on a 4 byte value and then casting the result to a 8 byte value. Cast the value to the wider type before calling operator '+' to avoid overflow (io.2).</DESCRIPTION>
+    <FUNCTION>LoadShaders</FUNCTION>
+    <DECORATED>?LoadShaders@@YAIPEBD000@Z</DECORATED>
+    <FUNCLINE>17</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master\common\</FILEPATH>
+      <FILENAME>shader.cpp</FILENAME>
+      <LINE>135</LINE>
+      <COLUMN>59</COLUMN>
+    </SFA>
+    <DEFECTCODE>26451</DEFECTCODE>
+    <DESCRIPTION>Arithmetic overflow: Using operator '+' on a 4 byte value and then casting the result to a 8 byte value. Cast the value to the wider type before calling operator '+' to avoid overflow (io.2).</DESCRIPTION>
+    <FUNCTION>LoadShaders</FUNCTION>
+    <DECORATED>?LoadShaders@@YAIPEBD000@Z</DECORATED>
+    <FUNCLINE>17</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master\common\</FILEPATH>
+      <FILENAME>shader.cpp</FILENAME>
+      <LINE>151</LINE>
+      <COLUMN>59</COLUMN>
+    </SFA>
+    <DEFECTCODE>26451</DEFECTCODE>
+    <DESCRIPTION>Arithmetic overflow: Using operator '+' on a 4 byte value and then casting the result to a 8 byte value. Cast the value to the wider type before calling operator '+' to avoid overflow (io.2).</DESCRIPTION>
+    <FUNCTION>LoadShaders</FUNCTION>
+    <DECORATED>?LoadShaders@@YAIPEBD000@Z</DECORATED>
+    <FUNCLINE>17</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master\common\</FILEPATH>
+      <FILENAME>shader.cpp</FILENAME>
+      <LINE>173</LINE>
+      <COLUMN>53</COLUMN>
+    </SFA>
+    <DEFECTCODE>26451</DEFECTCODE>
+    <DESCRIPTION>Arithmetic overflow: Using operator '+' on a 4 byte value and then casting the result to a 8 byte value. Cast the value to the wider type before calling operator '+' to avoid overflow (io.2).</DESCRIPTION>
+    <FUNCTION>LoadShaders</FUNCTION>
+    <DECORATED>?LoadShaders@@YAIPEBD000@Z</DECORATED>
+    <FUNCLINE>17</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master\common\</FILEPATH>
+      <FILENAME>shader.cpp</FILENAME>
+      <LINE>210</LINE>
+      <COLUMN>9</COLUMN>
+    </SFA>
+    <DEFECTCODE>6031</DEFECTCODE>
+    <DESCRIPTION>Return value ignored: 'getchar'.</DESCRIPTION>
+    <FUNCTION>LoadComputeShader</FUNCTION>
+    <DECORATED>?LoadComputeShader@@YAIPEBD@Z</DECORATED>
+    <FUNCLINE>196</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master\common\</FILEPATH>
+      <FILENAME>shader.cpp</FILENAME>
+      <LINE>228</LINE>
+      <COLUMN>60</COLUMN>
+    </SFA>
+    <DEFECTCODE>26451</DEFECTCODE>
+    <DESCRIPTION>Arithmetic overflow: Using operator '+' on a 4 byte value and then casting the result to a 8 byte value. Cast the value to the wider type before calling operator '+' to avoid overflow (io.2).</DESCRIPTION>
+    <FUNCTION>LoadComputeShader</FUNCTION>
+    <DECORATED>?LoadComputeShader@@YAIPEBD@Z</DECORATED>
+    <FUNCLINE>196</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+  <DEFECT>
+    <SFA>
+      <FILEPATH>D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master\common\</FILEPATH>
+      <FILENAME>shader.cpp</FILENAME>
+      <LINE>243</LINE>
+      <COLUMN>54</COLUMN>
+    </SFA>
+    <DEFECTCODE>26451</DEFECTCODE>
+    <DESCRIPTION>Arithmetic overflow: Using operator '+' on a 4 byte value and then casting the result to a 8 byte value. Cast the value to the wider type before calling operator '+' to avoid overflow (io.2).</DESCRIPTION>
+    <FUNCTION>LoadComputeShader</FUNCTION>
+    <DECORATED>?LoadComputeShader@@YAIPEBD@Z</DECORATED>
+    <FUNCLINE>196</FUNCLINE>
+    <PATH></PATH>
+  </DEFECT>
+</DEFECTS>

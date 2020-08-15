@@ -1,0 +1,5 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Current\Bin\Microsoft.Common.CurrentVersion.targets(1850,5): warning : The referenced project 'D:\ComputerScience\Newcastle\FinalProject\ogl-master-bin-vc19-64\ZERO_CHECK.vcxproj' does not exist.
+  Building Custom Rule D:/ComputerScience/Newcastle/FinalProject/ogl-master/external/glfw-3.1.2/src/CMakeLists.txt
+  CMake is re-running because D:/ComputerScience/Newcastle/FinalProject/ogl-master-bin-vc19-64/external/glfw-3.1.2/src/CMakeFiles/generate.stamp dependency file is missing.
+CUSTOMBUILD : CMake error : The source directory "D:/ComputerScience/Newcastle/FinalProject/ogl-master" does not exist.
+  Specify --help for usage, or press the help button on the CMake GUI.

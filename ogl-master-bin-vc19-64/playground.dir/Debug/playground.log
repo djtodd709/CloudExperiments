@@ -1,0 +1,19 @@
+﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(453,5): warning MSB8004: Output Directory does not end with a trailing slash.  This build instance will add the slash as it is required to allow proper evaluation of the Output Directory.
+  controls.cpp
+  playground.cpp
+  renderer.cpp
+..\ogl-master\playground\renderer.cpp(226,40): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+..\ogl-master\playground\renderer.cpp(226,27): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+..\ogl-master\playground\renderer.cpp(228,81): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+..\ogl-master\playground\renderer.cpp(228,68): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+..\ogl-master\playground\renderer.cpp(229,80): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+..\ogl-master\playground\renderer.cpp(229,67): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+..\ogl-master\playground\renderer.cpp(345,80): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+..\ogl-master\playground\renderer.cpp(345,67): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+..\ogl-master\playground\renderer.cpp(425,81): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+..\ogl-master\playground\renderer.cpp(425,68): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+..\ogl-master\playground\renderer.cpp(426,80): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+..\ogl-master\playground\renderer.cpp(426,67): warning C4244: 'argument': conversion from 'int' to 'GLfloat', possible loss of data
+..\ogl-master\playground\renderer.cpp(691,45): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+..\ogl-master\playground\renderer.cpp(727,45): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+  playground.vcxproj -> D:\ComputerScience\Newcastle\FinalProject\CloudExperiments\ogl-master-bin-vc19-64\Debug\playground.exe
